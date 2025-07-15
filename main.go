@@ -1,23 +1,27 @@
 package main
 
 import (
-	"tictacgo/game"
+	"flag"
+	"fmt"
+	"os"
+	"tictacgo/cli"
 )
 
 func main() {
-	var len int = 3
-	rows := make([][]string, len)
-	for i := 0; i < len; i++ {
-		rows[i] = make([]string, len)
-		for j := 0; j < len; j++ {
-			rows[i][j] = ""
-		}
+	mode := flag.String("mode", "cli", "Specify game mode, options are: ['cli', 'server']")
+	flag.Parse()
+
+	// CLI Game
+	if len(os.Args) < 2 || mode == nil || *mode == "cli" {
+		game := cli.SetupGame()
+		cli.Play(game)
+		return
 	}
 
-	var board game.Board = game.Board{Rows: rows, Size: len}
-	var player1 = game.Player{Name: "Rounik", Symbol: "X"}
-	var player2 = game.Player{Name: "Rohan", Symbol: "O"}
+	if *mode == "server" {
+		fmt.Println("HTTP mode is not implemented yet!")
+		return
+	}
 
-	var game = game.Game{Board: board, Players: []game.Player{player1, player2}}
-	game.Play()
+	fmt.Printf("'%s' mode is not supported\n", *mode)
 }
