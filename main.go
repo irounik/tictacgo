@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"os"
 	"tictacgo/cli"
+	"tictacgo/server"
 )
 
 func main() {
 	mode := flag.String("mode", "cli", "Specify game mode, options are: ['cli', 'server']")
+	port := flag.Int("port", 8080, "Port for server to start on")
 	flag.Parse()
 
 	// CLI Game
@@ -18,8 +20,9 @@ func main() {
 		return
 	}
 
+	// HTTP Server
 	if *mode == "server" {
-		fmt.Println("HTTP mode is not implemented yet!")
+		server.Start(*port)
 		return
 	}
 
