@@ -24,6 +24,10 @@ func NewRouter(authHandler handler.AuthHandler, authMiddleware middleware.AuthMi
 	registerRoute("/logout", POST(authHandler.LogOut))
 
 	mux.Handle("/game", authMiddleware.AuthrizeReqeust(http.HandlerFunc(gameHandler.NewGame)))
+	mux.Handle("/game/{gameId}", authMiddleware.AuthrizeReqeust(http.HandlerFunc(gameHandler.GetGame)))
+	mux.Handle("/game/{gameId}/join", authMiddleware.AuthrizeReqeust(http.HandlerFunc(gameHandler.JoinGame)))
+	mux.Handle("/game/{gameId}/start", authMiddleware.AuthrizeReqeust(http.HandlerFunc(gameHandler.StartGame)))
+	mux.Handle("/game/{gameId}/move", authMiddleware.AuthrizeReqeust(http.HandlerFunc(gameHandler.MakeMove)))
 	return mux
 }
 

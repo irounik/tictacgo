@@ -31,7 +31,9 @@ func setUpAppRouter() http.Handler {
 	authMiddleware := middleware.NewSessionAuthMiddleware(sessionService)
 
 	// Game Flow
-	gameHandler := &handler.GameHandlerImpl{}
+	gameRepo := repository.NewGameRepository()
+	gameService := service.NewGameService(gameRepo)
+	gameHandler := handler.NewGameHandler(gameService)
 
 	// App router
 	appRouter := router.NewRouter(authHandler, authMiddleware, gameHandler)
